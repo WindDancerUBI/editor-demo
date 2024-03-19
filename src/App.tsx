@@ -1,35 +1,43 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+/*
+ * @FilePath: \src\App.tsx
+ * @Author: huangjitao
+ * @Date: 2024-03-19
+ * @Description: description of this file
+ */
+import { Button, Layout, Spin } from '@douyinfe/semi-ui';
+import { Suspense } from 'react';
+
+const { Sider, Header, Content, Footer } = Layout;
 
 function App() {
-  const [count, setCount] = useState(0)
+  const changeTheme = () => {
+    const body = document.body;
+    const html = document.documentElement;
+    if (body.hasAttribute('theme-mode')) {
+      body.removeAttribute('theme-mode');
+      html.classList.remove('dark');
+    } else {
+      body.setAttribute('theme-mode', 'dark');
+      html.classList.add('dark');
+    }
+  };
 
   return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    <Layout className='w-full h-full overflow-hidden'>
+      <Sider>侧边导航栏</Sider>
+      <Layout>
+        <Header>头部</Header>
+        <Content>
+          <Suspense fallback={<Spin />}>内容部分</Suspense>
+        </Content>
+        <Footer>
+          <Button type='primary' onClick={changeTheme}>
+            切换主题
+          </Button>
+        </Footer>
+      </Layout>
+    </Layout>
+  );
 }
 
-export default App
+export default App;
