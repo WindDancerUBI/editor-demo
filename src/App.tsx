@@ -6,6 +6,9 @@
  */
 import { Button, Layout, Spin } from '@douyinfe/semi-ui';
 import { Suspense } from 'react';
+import { useBlockEditor } from '@/components/TipTapEditor/hooks/useBlockEditor.ts';
+import { initialContent } from '@/lib/data/initialContent.ts';
+import BlockEditor from '@/components/TipTapEditor/BlockEditor.tsx';
 
 const { Sider, Header, Content, Footer } = Layout;
 
@@ -22,19 +25,23 @@ function App() {
     }
   };
 
+  const { editor, characterCount } = useBlockEditor(initialContent);
+
   return (
     <Layout className='w-full h-full overflow-hidden'>
-      <Sider>侧边导航栏</Sider>
+      <Header>
+        <Button type='primary' onClick={changeTheme}>
+          切换主题
+        </Button>
+      </Header>
       <Layout>
-        <Header>头部</Header>
+        <Sider>侧边导航栏</Sider>
         <Content>
-          <Suspense fallback={<Spin />}>内容部分</Suspense>
+          <Suspense fallback={<Spin />}>
+            <BlockEditor editor={editor} />
+          </Suspense>
         </Content>
-        <Footer>
-          <Button type='primary' onClick={changeTheme}>
-            切换主题
-          </Button>
-        </Footer>
+        <Footer></Footer>
       </Layout>
     </Layout>
   );
